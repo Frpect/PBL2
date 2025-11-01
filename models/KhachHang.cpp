@@ -1,47 +1,37 @@
 #include "KhachHang.h"
-#include <iomanip>
-using namespace std;
+#include <sstream>
+#include <iostream>
 
-// =============================
-// Trả về thông tin khách hàng (string)
-// =============================
-string KhachHang::xemThongTin() const {
-    ostringstream os;
-    os << "========== THONG TIN KHACH HANG ==========\n";
-    os << "Ho ten: " << hoTen_ << "\n";
-    os << "So dien thoai: " << sdt_ << "\n";
-    os << "Gioi tinh: " << gioiTinh_ << "\n";
-    os << "Ma khach hang: " << maKhachHang_ << "\n";
-    os << "Diem tieu dung: " << diemTieuDung_ << "\n";
-    os << "Hang thanh vien: " << hangThanhVien_ << "\n";
-    os << "==========================================";
+KhachHang::KhachHang(std::string ma, std::string ten, std::string sdt, std::string gt,
+                     int diem, std::string hang)
+    : User(std::move(ten), std::move(sdt), std::move(gt)),
+      maKhachHang_(std::move(ma)), diemTieuDung_(diem), hangThanhVien_(std::move(hang)) {}
+
+void KhachHang::datMon(const DonHang& don) {
+    lichSuDon_.push_back(don);
+    std::cout << "Khach hang " << hoTen_ << " da dat don hang: " << don.getMaDonHang() << "\n";
+}
+
+void KhachHang::thanhToan(DonHang& don) {
+    double tong = don.tinhTongTien();
+    std::cout << "Thanh toan don hang " << don.getMaDonHang() << " tong: " << tong << " VND\n";
+    diemTieuDung_ += static_cast<int>(tong / 100000); // cứ 100k = 1 điểm
+}
+
+std::string KhachHang::xemMenu() const {
+    std::ostringstream os;
+    os << "Danh muc mon an hien co (goi mau): \n"
+       << "- Burger: 45000 VND\n"
+       << "- Pepsi: 12000 VND\n"
+       << "- Com chien: 40000 VND\n";
     return os.str();
 }
 
-// =============================
-// Trả về menu món ăn (vector<string>)
-// =============================
-vector<string> KhachHang::getMenu() const {
-    return {
-        "1. Pho bo dac biet - 45.000 VND",
-        "2. Com tam suon bi cha - 40.000 VND",
-        "3. Bun bo Hue - 35.000 VND",
-        "4. Tra sua tran chau - 30.000 VND",
-        "5. Cafe den da - 25.000 VND"
-    };
-}
-
-// =============================
-// Tạo nội dung hóa đơn (string)
-// =============================
-string KhachHang::taoHoaDon(double tongTien) const {
-    ostringstream os;
-    os << fixed << setprecision(0);
-    os << "=========== HOA DON THANH TOAN ===========\n";
-    os << "Tong tien: " << tongTien << " VND\n";
-    os << "Diem tieu dung hien co: " << diemTieuDung_ << "\n";
-    os << "So tien phai thanh toan: " << tongTien << " VND\n";
-    os << "==========================================\n";
-    os << "Cam on quy khach da su dung dich vu!";
+std::string KhachHang::xemThongTin() const {
+    std::ostringstream os;
+    os << User::xemThongTin() << "\n"
+       << "Ma KH: " << maKhachHang_ << "\n"
+       << "Diem tich luy: " << diemTieuDung_ << "\n"
+       << "Hang thanh vien: " << hangThanhVien_;
     return os.str();
 }

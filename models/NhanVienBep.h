@@ -2,56 +2,40 @@
 #define NHANVIENBEP_H
 
 #include "User.h"
+#include "DonHang.h"
 #include <string>
-#include <vector>
 #include <sstream>
-
-struct DonBep {
-    std::string maDon;
-    std::vector<std::string> danhSachMon;
-    std::string trangThai; // "Chờ nấu", "Đang nấu", "Hoàn thành"
-};
+#include <vector>
 
 class NhanVienBep : public User {
 private:
     std::string maBep_;
-    std::string caLam_;
+    std::string khuVucPhuTrach_;
     double luong_{};
-    bool trangThaiLamViec_{false};
-
-    std::vector<DonBep> danhSachDonDangNau_;
+    bool dangLamViec_{false};
+    std::vector<DonHang> danhSachDon_;
 
 public:
-    // ===== Constructor & Destructor =====
     NhanVienBep() = default;
     NhanVienBep(std::string ma, std::string ten, std::string sdt, std::string gt,
-                std::string ca, double luong);
-    virtual ~NhanVienBep() = default;
+                std::string khuVuc, double luong);
 
-    // ===== Getter / Setter =====
-    const std::string& getMaBep() const;
-    void setMaBep(const std::string& ma);
+    // Getter
+    const std::string& getMaBep() const { return maBep_; }
+    const std::string& getKhuVuc() const { return khuVucPhuTrach_; }
+    double getLuong() const { return luong_; }
 
-    const std::string& getCaLam() const;
-    void setCaLam(const std::string& ca);
+    // Setter
+    void setLuong(double l) { luong_ = l; }
 
-    double getLuong() const;
-    void setLuong(double luong);
-
-    bool getTrangThaiLamViec() const;
-    void setTrangThaiLamViec(bool trangThai);
-
-    // ===== Nghiệp vụ =====
-    void batDauCa();
-    void ketThucCa();
-
-    void nhanOrder(const DonBep& don);
-    void batDauNau(const std::string& maDon);
-    void hoanThanhMon(const std::string& maDon);
+    // Nghiệp vụ
+    void capNhatTrangThaiDon(DonHang& don, const std::string& trangThai);
+    void capNhatTrangThaiMon(DonHang& don, const std::string& tenMon, std::string trangthaiMon);
+    void batDauLam() { dangLamViec_ = true; }
+    void ketThucLam() { dangLamViec_ = false; }
 
     std::string xemDanhSachDon() const;
     std::string toJSON() const;
-    std::string getRole() const;
 };
 
 #endif
