@@ -1,28 +1,68 @@
-#include <SDL.h>
-#include <iostream>
+#include "BaseObject.h"
+BaseObject BG;
 
-int main(int, char**) {
-    if (SDL_Init(SDL_INIT_VIDEO) != 0) {
-        std::cerr << "SDL_Init error: " << SDL_GetError() << "\n";
-        return 1;
-    }
-    SDL_Window* w = SDL_CreateWindow(
-        "PBL2", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 800, 600, SDL_WINDOW_SHOWN);
-    if (!w) { std::cerr << "CreateWindow: " << SDL_GetError() << "\n"; SDL_Quit(); return 1; }
+bool InitData()
+{
+    bool success=true;
+    int ret =SDL_Init(SDL_INIT_VIDEO);
+    if(ret<0) return false;
+    SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY,"1");
 
-    SDL_Renderer* r = SDL_CreateRenderer(w, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
-    if (!r) { std::cerr << "CreateRenderer: " << SDL_GetError() << "\n"; SDL_DestroyWindow(w); SDL_Quit(); return 1; }
-
-    bool run = true; SDL_Event e;
-    while (run) {
-        while (SDL_PollEvent(&e)) {
-            if (e.type == SDL_QUIT) run = false;
-            if (e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_ESCAPE) run = false;
+    window = SDL_CreateWindow("TEST",
+                                SDL_WINDOWPOS_UNDEFINED, 
+                                SDL_WINDOWPOS_UNDEFINED,
+                                SCREEN_WIDTH,SCREEN_HEIGHT,
+                                SDL_WINDOW_SHOWN);
+    if(window ==nullptr) success=false;
+    else { 
+        screen = SDL_CreateRenderer(window,-1,SDL_RENDERER_ACCELERATED);
+        if(screen==nullptr)  success=false;
+        else
+        {
+            SDL_SetRenderDrawColor(screen,255,255,255,255);
+            int imgFlags= IMG_INIT_PNG;
+            if(!IMG_Init(imgFlags)&&imgFlags)
+            {
+                success=false;
+            }
         }
-        SDL_SetRenderDrawColor(r, 30,30,30,255); SDL_RenderClear(r);
-        SDL_Rect rect{100,100,200,150}; SDL_SetRenderDrawColor(r,220,80,80,255); SDL_RenderFillRect(r,&rect);
-        SDL_RenderPresent(r);
     }
-    SDL_DestroyRenderer(r); SDL_DestroyWindow(w); SDL_Quit();
-    return 0;
+    return success;
+}
+bool loadBG()
+{
+    bool ret=BG.loadImg("assets/img/p1.png",screen);
+    if(ret==false)
+        return false;
+    return true;
+}
+void close()
+{
+    BG.Free();
+    SDL_DestroyRenderer(screen);
+    screen=nullptr;
+    SDL_DestroyWindow(window);
+    window=nullptr;
+    IMG_Quit();
+    SDL_Quit();
+}
+int main(int, char**) {
+    if(InitData()==false) return -1;
+    if(loadBG()==false) return -1;
+    bool is_quit=false;
+    while(!is_quit)
+    {
+        while(SDL_PollEvent(&event)!=0)
+        {
+            if(event.type==SDL_QUIT)
+            {
+                is_quit=true;
+            }
+        }
+        SDL_SetRenderDrawColor(screen,255,255,255,255);
+        SDL_RenderClear(screen);
+        BG.Render(screen,nullptr);
+        SDL_RenderPresent(screen);
+    }
+    close();
 }
