@@ -6,10 +6,12 @@ void DonHang::themMon(const MonGoi& mon) {
     danhSachMon_.push_back(mon);
 }
 double DonHang::tinhTongTien() const {
-    double tong = 0;
-    for (const auto& m : danhSachMon_)
-        tong += m.gia * m.soLuong;
-    return tong;
+   double tong = 0.0;
+for (const auto& mg : donHang.danhSachMon) {
+    if (mg.mon)
+        tong += mg.mon->gia * mg.soLuong;
+}
+return tong;
 }
 
 void DonHang::capNhatTrangThai(const std::string& tt) {
