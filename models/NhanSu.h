@@ -1,36 +1,35 @@
 #ifndef NHANSU_H
 #define NHANSU_H
+
 #include "User.h"
-using namespace std;
+#include <string>
 
 class NhanSu : public User {
 protected:
-    string maNhanVien_{};
-    string taiKhoan_{};
-    string matKhau_{};
-    double luong_{0};
-    string caLam_{};
+    std::string maNhanVien_;
+    std::string taiKhoan_;
+    std::string matKhau_;
+    double luong_;
+    std::string caLam_;
 
 public:
     NhanSu() = default;
+    NhanSu(std::string ma, std::string ten, std::string sdt, std::string gt,
+           std::string tk, std::string mk, double luong, std::string ca);
+
     virtual ~NhanSu() = default;
 
-    NhanSu(string ten, string sdt, string gt,
-           string maNV, string tk)
-        : User(move(ten), move(sdt), move(gt)),
-          maNhanVien_(move(maNV)), taiKhoan_(move(tk)) {}
+    const std::string& getMaNhanVien() const;
+    const std::string& getCaLam() const;
+    double getLuong() const;
 
-    // Getter / Setter
-    const string& getMaNhanVien() const { return maNhanVien_; }
-    void setMaNhanVien(const string& maNV) { maNhanVien_ = maNV; }
+    void setCaLam(const std::string& ca);
+    void setLuong(double luong);
 
-    const string& getTaiKhoan() const { return taiKhoan_; }
-    void setTaiKhoan(const string& tk) { taiKhoan_ = tk; }
+    bool dangNhap(const std::string& tk, const std::string& mk) const;
+    void dangXuat() const;
 
-    const string& getCaLam() const { return caLam_; }
-    void setCaLam(const string& ca) { caLam_ = ca; }
-
-    double getLuong() const { return luong_; }
-    void setLuong(double luong) { luong_ = luong; }
+    virtual std::string xemThongTin() const override;
 };
+
 #endif

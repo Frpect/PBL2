@@ -1,62 +1,25 @@
-#ifndef QUANLI_H
-#define QUANLI_H
+#ifndef QUANLY_H
+#define QUANLY_H
 
-#include "User.h"
 #include "NhanSu.h"
-#include "PhucVu.h"
-#include "NhanVienBep.h"
+#include "MonAn.h"
+#include "DonHang.h"
 #include <vector>
-#include <string>
-#include <sstream>
-#include <optional>
 
-struct MonAn {
-    std::string tenMon;
-    double gia;
-};
-
-class QuanLi : public User {
+class QuanLy : public NhanSu {
 private:
-    std::string maQuanLi_;
-    double luong_{};
-    std::vector<NhanSu> danhSachNhanSu_;
-    std::vector<MonAn> menu_;
-    double doanhThu_{};
-
+    std::vector<MonAn> danhSachMon_;
+    std::vector<DonHang> danhSachDonHang_;
 public:
-    // ===== Constructor & Destructor =====
-    QuanLi() = default;
-    QuanLi(std::string ma, std::string ten, std::string sdt, std::string gt, double luong);
-    virtual ~QuanLi() = default;
+    QuanLy() = default;
+    QuanLy(std::string ma, std::string ten, std::string sdt, std::string gt,
+           std::string ca, double luong);
 
-    // ===== Getter / Setter =====
-    const std::string& getMaQuanLi() const;
-    void setMaQuanLi(const std::string& ma);
-
-    double getLuong() const;
-    void setLuong(double luong);
-
-    double getDoanhThu() const;
-    void setDoanhThu(double doanhThu);
-
-    // ===== Nghiệp vụ quản lý nhân sự =====
-    void themNhanSu(const NhanSu& ns);
-    void xoaNhanSu(const std::string& maNhanVien);
-    std::optional<NhanSu> timNhanSu(const std::string& maNhanVien) const;
-    std::string xemDanhSachNhanSu() const;
-
-    // ===== Quản lý menu =====
-    void themMonAn(const MonAn& mon);
-    void xoaMonAn(const std::string& tenMon);
-    std::string xemMenu() const;
-
-    // ===== Doanh thu =====
-    void congDoanhThu(double soTien);
-    void resetDoanhThu();
-
-    // ===== Xuất dữ liệu =====
-    std::string toJSON() const;
-    std::string getRole() const;
+    void themMon(const MonAn& mon);
+    void xoaMon(const std::string& ten);
+    std::string baoCaoDoanhThu() const;
+    std::string xemThongTin() const override;
+     void themDonHang(const DonHang& don) { danhSachDonHang_.push_back(don); }
 };
 
 #endif

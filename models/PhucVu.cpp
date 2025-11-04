@@ -1,104 +1,37 @@
 #include "PhucVu.h"
 #include <sstream>
-#include <utility>
 
-// ===== Constructor =====
 PhucVu::PhucVu(std::string ma, std::string ten, std::string sdt, std::string gt,
                std::string ca, double luong)
-    : User(std::move(ten), std::move(sdt), std::move(gt)),
-      maPhucVu_(std::move(ma)), caLam_(std::move(ca)), luong_(luong) {}
+    : NhanSu(std::move(ma), std::move(ten), std::move(sdt), std::move(gt),
+             ma, "123", luong, std::move(ca)) {}
 
-// ===== Getter / Setter =====
-const std::string& PhucVu::getMaPhucVu() const { return maPhucVu_; }
-void PhucVu::setMaPhucVu(const std::string& ma) { maPhucVu_ = ma; }
-
-const std::string& PhucVu::getCaLam() const { return caLam_; }
-void PhucVu::setCaLam(const std::string& ca) { caLam_ = ca; }
-
-double PhucVu::getLuong() const { return luong_; }
-void PhucVu::setLuong(double luong) { luong_ = luong; }
-
-bool PhucVu::getTrangThaiLamViec() const { return trangThaiLamViec_; }
-void PhucVu::setTrangThaiLamViec(bool trangThai) { trangThaiLamViec_ = trangThai; }
-
-// ===== Nghiệp vụ =====
-void PhucVu::batDauCa() { trangThaiLamViec_ = true; }
-void PhucVu::ketThucCa() { trangThaiLamViec_ = false; }
-
-void PhucVu::nhanOrder(const DonHang& don) {
-    danhSachDonPhuTrach_.push_back(don);
+void PhucVu::taoDonHang(const DonHang& dh) {
+    danhSachDon_.push_back(dh);
 }
 
-void PhucVu::guiOrderToBep(const std::string& maDon) {
-    for (auto& don : danhSachDonPhuTrach_) {
-        if (don.maDon == maDon) {
-            don.trangThai = "Đang chuẩn bị";
-            break;
-        }
+void PhucVu::guiOrderXuongBep(const std::string& maDon) {
+    for (auto& d : danhSachDon_) {
+        if (d.getMaDonHang() == maDon)
+            d.capNhatTrangThai("Đang chuẩn bị");
     }
 }
 
-void PhucVu::nhanMon(const std::string& maDon) {
-    for (auto& don : danhSachDonPhuTrach_) {
-        if (don.maDon == maDon) {
-            don.trangThai = "Hoàn tất";
-            break;
-        }
-    }
-}
-
-void PhucVu::phucVuKhach(const std::string& maDon) {
-    for (auto& don : danhSachDonPhuTrach_) {
-        if (don.maDon == maDon) {
-            don.trangThai = "Đã phục vụ";
-            break;
-        }
-    }
-}
-
-void PhucVu::thanhToan(const std::string& maDon) {
-    for (auto it = danhSachDonPhuTrach_.begin(); it != danhSachDonPhuTrach_.end(); ++it) {
-        if (it->maDon == maDon) {
-            danhSachDonPhuTrach_.erase(it);
-            break;
-        }
-    }
-}
-
-// ===== Xem danh sách đơn hàng =====
-std::string PhucVu::xemDanhSachDon() const {
+std::string PhucVu::xemThongTin() const {
     std::ostringstream os;
-    os << "Danh sach don phuc vu (" << danhSachDonPhuTrach_.size() << "):\n";
-    for (const auto& don : danhSachDonPhuTrach_) {
-        os << "- Don #" << don.maDon << " (" << don.trangThai << ") - Khach: " << don.tenKhach << "\n";
-    }
+    os << NhanSu::xemThongTin() << "\nSo don dang phu trach: " << danhSachDon_.size();
     return os.str();
 }
-
-// ===== Xuất JSON =====
-std::string PhucVu::toJSON() const {
-    std::ostringstream os;
-    os << "{"
-       << "\"maPhucVu\":\"" << maPhucVu_ << "\","
-       << "\"hoTen\":\"" << hoTen_ << "\","
-       << "\"sdt\":\"" << sdt_ << "\","
-       << "\"gioiTinh\":\"" << gioiTinh_ << "\","
-       << "\"caLam\":\"" << caLam_ << "\","
-       << "\"luong\":" << luong_ << ","
-       << "\"trangThaiLamViec\":" << (trangThaiLamViec_ ? "true" : "false") << ",";
-    os << "\"donHang\":[";
-    for (size_t i = 0; i < danhSachDonPhuTrach_.size(); ++i) {
-        const auto& d = danhSachDonPhuTrach_[i];
-        os << "{"
-           << "\"maDon\":\"" << d.maDon << "\","
-           << "\"tenKhach\":\"" << d.tenKhach << "\","
-           << "\"trangThai\":\"" << d.trangThai << "\""
-           << "}";
-        if (i + 1 < danhSachDonPhuTrach_.size()) os << ",";
+std::string PhucVu::inHoaDon(const std::string& maDon) const {
+    for (const auto& d : danhSachDon_) {
+        if (d.getMaDonHang() == maDon) {
+            std::ostringstream os;
+            os << "===== HOA DON =====\n";
+            os << d.xemChiTiet();
+            os << "Tong tien: " << d.tinhTongTien() << " VND\n";
+            os << "===================\n";
+            return os.str();
+        }
     }
-    os << "]}";
-    return os.str();
+    return "Khong tim thay don hang.\n";
 }
-
-// ===== Loại người dùng =====
-std::string PhucVu::getRole() const { return "Phuc vu"; }

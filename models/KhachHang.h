@@ -1,30 +1,26 @@
 #ifndef KHACHHANG_H
 #define KHACHHANG_H
+
 #include "User.h"
-using namespace std;
+#include "DonHang.h"
+#include <vector>
 
 class KhachHang : public User {
 private:
-    string maKhachHang_{};
-    int diemTichLuy_{0};
-    string hangThanhVien_{"Thuong"};
+    std::string maKhachHang_;
+    int diemTieuDung_;
+    std::string hangThanhVien_;
+    std::vector<DonHang> lichSuDon_;
 
 public:
     KhachHang() = default;
-    virtual ~KhachHang() = default;
+    KhachHang(std::string ma, std::string ten, std::string sdt, std::string gt,
+              int diem = 0, std::string hang = "Thuong");
 
-    KhachHang(string ten, string sdt, string gt, string maKH)
-        : User(move(ten), move(sdt), move(gt)),
-          maKhachHang_(move(maKH)) {}
-
-    // Getter / Setter
-    const string& getMaKhachHang() const { return maKhachHang_; }
-    void setMaKhachHang(const string& maKH) { maKhachHang_ = maKH; }
-
-    int getDiemTichLuy() const { return diemTichLuy_; }
-    void setDiemTichLuy(int diem) { diemTichLuy_ = diem; }
-
-    const string& getHangThanhVien() const { return hangThanhVien_; }
-    void setHangThanhVien(const string& hang) { hangThanhVien_ = hang; }
+    void datMon(const DonHang& don);
+    void thanhToan(DonHang& don);
+    std::string xemMenu() const;
+    std::string xemThongTin() const override;
 };
+
 #endif
