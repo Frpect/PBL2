@@ -5,15 +5,17 @@
 #include<SDL_mixer.h>
 #include<SDL_ttf.h>
 #include<iostream>
+#include <memory>
 
+extern TTF_Font* font;
 //Core
-static SDL_Window* window=nullptr;
-static SDL_Renderer* screen=nullptr;
-static SDL_Event event;
+extern SDL_Window* window;
+extern SDL_Renderer* screen;
+extern SDL_Event event;
 
 //SCREEN
-const int SCREEN_WIDTH=1920;
-const int SCREEN_HEIGHT=1080;
+const int SCREEN_WIDTH=1280;
+const int SCREEN_HEIGHT=720;
 const int SCREEN_HPP=32;
 
 const int COLOR_KEY_R = 167;

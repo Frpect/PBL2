@@ -6,13 +6,12 @@ cmake_policy(SET CMP0009 NEW)
 file(GLOB_RECURSE NEW_GLOB LIST_DIRECTORIES false "E:/PBL2/DUAN/UI/*.cpp")
 set(OLD_GLOB
   "E:/PBL2/DUAN/UI/BaseObject.cpp"
+  "E:/PBL2/DUAN/UI/Button.cpp"
   "E:/PBL2/DUAN/UI/Common.cpp"
-  "E:/PBL2/DUAN/UI/CustomerState.cpp"
-  "E:/PBL2/DUAN/UI/FoodState.cpp"
-  "E:/PBL2/DUAN/UI/MenuState.cpp"
-  "E:/PBL2/DUAN/UI/OrderState.cpp"
-  "E:/PBL2/DUAN/UI/Renderer.cpp"
-  "E:/PBL2/DUAN/UI/StatsState.cpp"
+  "E:/PBL2/DUAN/UI/LoginState.cpp"
+  "E:/PBL2/DUAN/UI/LoginTabs.cpp"
+  "E:/PBL2/DUAN/UI/State.cpp"
+  "E:/PBL2/DUAN/UI/Tab.cpp"
   )
 if(NOT "${NEW_GLOB}" STREQUAL "${OLD_GLOB}")
   message("-- GLOB mismatch!")

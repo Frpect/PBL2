@@ -6,13 +6,12 @@
 			"paths" : 
 			[
 				"E:/PBL2/DUAN/UI/BaseObject.cpp",
+				"E:/PBL2/DUAN/UI/Button.cpp",
 				"E:/PBL2/DUAN/UI/Common.cpp",
-				"E:/PBL2/DUAN/UI/CustomerState.cpp",
-				"E:/PBL2/DUAN/UI/FoodState.cpp",
-				"E:/PBL2/DUAN/UI/MenuState.cpp",
-				"E:/PBL2/DUAN/UI/OrderState.cpp",
-				"E:/PBL2/DUAN/UI/Renderer.cpp",
-				"E:/PBL2/DUAN/UI/StatsState.cpp"
+				"E:/PBL2/DUAN/UI/LoginState.cpp",
+				"E:/PBL2/DUAN/UI/LoginTabs.cpp",
+				"E:/PBL2/DUAN/UI/State.cpp",
+				"E:/PBL2/DUAN/UI/Tab.cpp"
 			],
 			"recurse" : true
 		},

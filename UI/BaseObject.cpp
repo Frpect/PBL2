@@ -16,7 +16,11 @@ bool BaseObject::loadImg(std::string path, SDL_Renderer* screen)
 {
     SDL_Texture* new_texture=nullptr;
     
-    SDL_Surface* new_surface=IMG_Load(path.c_str());
+    SDL_Surface* new_surface=IMG_Load(path.c_str());    
+    if (new_surface == nullptr) {
+        std::cerr << "Unable to load image " << path << " Error: " << IMG_GetError() << std::endl;
+        return false;
+    }
     if(new_surface!=nullptr)
     {
         SDL_SetColorKey(new_surface,SDL_TRUE, SDL_MapRGB(new_surface->format, COLOR_KEY_R,COLOR_KEY_G,COLOR_KEY_B));
@@ -30,13 +34,20 @@ bool BaseObject::loadImg(std::string path, SDL_Renderer* screen)
     SDL_FreeSurface(new_surface);
     obj_=new_texture;
     return obj_!=nullptr;
+    
 }
-void BaseObject::Render(SDL_Renderer* des_,const SDL_Rect* clip)
+bool BaseObject::render(SDL_Renderer* des_,const SDL_Rect* clip)
 {
-    SDL_Rect renderquad={rect_.x,rect_.y,rect_.w,rect_.h};
-    SDL_RenderCopy(des_,obj_,clip,&renderquad);
+     if (obj_ != nullptr)
+    {
+        SDL_Rect renderQuad = { rect_.x, rect_.y, rect_.w, rect_.h };
+        SDL_RenderCopy(des_, obj_, clip, &renderQuad);
+        return true;
+    }
+    else return false;
+    
 }
-void BaseObject::Free()
+void BaseObject::free()
 {
     if(obj_!=nullptr)
     {
