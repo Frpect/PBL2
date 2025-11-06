@@ -12,6 +12,7 @@ set(OLD_GLOB
   "E:/PBL2/DUAN/UI/LoginTabs.cpp"
   "E:/PBL2/DUAN/UI/State.cpp"
   "E:/PBL2/DUAN/UI/Tab.cpp"
+  "E:/PBL2/DUAN/UI/TextInput.cpp"
   )
 if(NOT "${NEW_GLOB}" STREQUAL "${OLD_GLOB}")
   message("-- GLOB mismatch!")

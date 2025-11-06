@@ -6,6 +6,7 @@
 #include"Button.h"
 #include"LoginState.h"
 #include<vector>
+class TextInput;
 
 
 
@@ -41,5 +42,7 @@ public:
     void update() override;
     void render(SDL_Renderer* des_, const SDL_Rect* clip = nullptr) override;//Render het ra - truyen tham so vi tri
 protected:            
+    std::unique_ptr<TextInput> usernameInput_;
+    std::unique_ptr<TextInput> passwordInput_;
 };
 #endif

@@ -11,7 +11,8 @@
 				"E:/PBL2/DUAN/UI/LoginState.cpp",
 				"E:/PBL2/DUAN/UI/LoginTabs.cpp",
 				"E:/PBL2/DUAN/UI/State.cpp",
-				"E:/PBL2/DUAN/UI/Tab.cpp"
+				"E:/PBL2/DUAN/UI/Tab.cpp",
+				"E:/PBL2/DUAN/UI/TextInput.cpp"
 			],
 			"recurse" : true
 		},

@@ -1,8 +1,8 @@
 # ninja log v7
-28	46	7839527467980748	E:/PBL2/DUAN/build/ninja-Debug/CMakeFiles/cmake.verify_globs	206dea4ffe98bf5b
+2	21	7841238335387305	E:/PBL2/DUAN/build/ninja-Debug/CMakeFiles/cmake.verify_globs	206dea4ffe98bf5b
 108	2589	7834248853061304	CMakeFiles/MyPBL2project.dir/src/main.cpp.obj	de3ddd26422e41d5
 61	1531	7839522945596608	CMakeFiles/PBL2.dir/src/main.cpp.obj	d908053dfbac56dc
-1180	1299	7839527479501183	PBL2.exe	ecbd357cb2acb89f
+1534	1722	7841225217406782	PBL2.exe	ecbd357cb2acb89f
 45	1900	7839506933775740	CMakeFiles/PBL2.dir/UI/Common.cpp.obj	94f9248cfb9fc6ff
 54	267	7837811132716309	CMakeFiles/PBL2.dir/UI/CustomerState.cpp.obj	cc3a374f5c72bca
 60	237	7837811132776152	CMakeFiles/PBL2.dir/UI/MenuState.cpp.obj	90a810dcda4cf5a1
@@ -25,7 +25,14 @@
 39	2026	7839506933715894	CMakeFiles/PBL2.dir/UI/BaseObject.cpp.obj	fd7866b492e87948
 37	1915	7839517062931264	CMakeFiles/PBL2.dir/UI/Button.cpp.obj	4ae9b5b5520e8a95
 55	1518	7839522945536766	CMakeFiles/PBL2.dir/UI/State.cpp.obj	e66c4d7497466de7
-50	1180	7839527468190191	CMakeFiles/PBL2.dir/UI/LoginTabs.cpp.obj	9a51e3429530664c
+29	1534	7841225202363939	CMakeFiles/PBL2.dir/UI/LoginTabs.cpp.obj	9a51e3429530664c
 58	1566	7839522945566690	CMakeFiles/PBL2.dir/UI/Tab.cpp.obj	eeb22421941e6176
 50	1276	7839525988844024	CMakeFiles/PBL2.dir/UI/LoginState.cpp.obj	32a8e422d86a9912
-38	327	7839531306262940	build.ninja	325cefde9047f35d
+38	327	7841238337591394	build.ninja	325cefde9047f35d
+22	338	7841238337591394	build.ninja	325cefde9047f35d
+24	51	7841238338828085	E:/PBL2/DUAN/build/ninja-Debug/CMakeFiles/cmake.verify_globs	206dea4ffe98bf5b
+63	1333	7841238339217040	CMakeFiles/PBL2.dir/src/main.cpp.obj	d908053dfbac56dc
+60	1352	7841238339197101	CMakeFiles/PBL2.dir/UI/TextInput.cpp.obj	730c9348ed4858ad
+55	1537	7841238339137256	CMakeFiles/PBL2.dir/UI/LoginState.cpp.obj	32a8e422d86a9912
+58	1544	7841238339167176	CMakeFiles/PBL2.dir/UI/LoginTabs.cpp.obj	9a51e3429530664c
+1545	1692	7841238354029756	PBL2.exe	81f7bd5dd9e59d93

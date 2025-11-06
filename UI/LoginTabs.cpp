@@ -1,4 +1,5 @@
 #include "LoginTabs.h"
+#include "TextInput.h"
 //HomeTab
 HomeTab::HomeTab()//load cac image, bg vao truoc
 {
@@ -95,6 +96,9 @@ void RoleTab::handleEvent(SDL_Event& e)
 LoginTab::LoginTab()
 {
     bG_.loadImg("assets/img/LoginTab.png",screen);
+    // Inputs
+    usernameInput_ = std::make_unique<TextInput>(450, 320, 380, 48, "Tên đăng nhập", false);
+    passwordInput_ = std::make_unique<TextInput>(450, 390, 380, 48, "Mật khẩu", true);
     auto btn = std::make_unique<Button2>(
     "assets/img/ExitButton.png",
     "assets/img/HExitButton.png",
@@ -109,6 +113,8 @@ LoginTab::LoginTab()
 LoginTab::~LoginTab()=default;
 void LoginTab::render(SDL_Renderer* des_, const SDL_Rect* clip) {
     bG_.render(des_);
+    if (usernameInput_) usernameInput_->render(des_);
+    if (passwordInput_) passwordInput_->render(des_);
     for (auto& btn : buttons_) btn->render(des_);
 }
 void LoginTab::update()
@@ -117,6 +123,20 @@ void LoginTab::update()
 }
 void LoginTab::handleEvent(SDL_Event& e) 
 {
+    if (usernameInput_) usernameInput_->handleEvent(e);
+    if (passwordInput_) passwordInput_->handleEvent(e);
+
+    if (e.type == SDL_KEYDOWN)
+    {
+        if (e.key.keysym.sym == SDLK_RETURN)
+        {
+            status_ = DONE;
+        }
+        else if (e.key.keysym.sym == SDLK_ESCAPE)
+        {
+            status_ = BACK;
+        }
+    }
     for(int i=0;i<buttons_.size();i++)
     {
         buttons_[i]->handleEvent(e);
