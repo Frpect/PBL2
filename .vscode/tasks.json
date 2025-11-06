@@ -7,9 +7,22 @@
             "args": [
                 "-fdiagnostics-color=always",
                 "-g",
-                "${file}",
+                "${workspaceFolder}\\main.cpp",
+                "${workspaceFolder}\\services\\AuthService.cpp",
+                "${workspaceFolder}\\services\\MenuService.cpp",
+                "${workspaceFolder}\\services\\OrderService.cpp",
+                "${workspaceFolder}\\services\\ReportService.cpp",
+                "${workspaceFolder}\\models\\User.cpp",
+                "${workspaceFolder}\\models\\KhachHang.cpp",
+                "${workspaceFolder}\\models\\DonHang.cpp",
+                "${workspaceFolder}\\models\\NhanSu.cpp",
+                "${workspaceFolder}\\models\\NhanVienBep.cpp",
+                "${workspaceFolder}\\models\\PhucVu.cpp",
+                "${workspaceFolder}\\models\\QuanLy.cpp",
+                "${workspaceFolder}\\models\\MonAn.cpp",
+                "${workspaceFolder}\\models\\Ban.cpp",
                 "-o",
-                "${fileDirname}\\${fileBasenameNoExtension}.exe"
+                "${workspaceFolder}\\main.exe"
             ],
             "options": {
                 "cwd": "${fileDirname}"

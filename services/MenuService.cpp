@@ -38,6 +38,11 @@ std::vector<Mon> MenuService::getDanhSachMon() const {
     return danhSachMon;
 }
 
+Mon* MenuService::layMonTheoIndex(int index) {
+    if (index < 0 || index >= (int)danhSachMon.size()) return nullptr;
+    return &danhSachMon[index];
+}
+
 std::optional<Mon> MenuService::timMonTheoId(int id) const {
     for (const auto& mon : danhSachMon) {
         if (mon.id == id) return mon;

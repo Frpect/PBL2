@@ -6,12 +6,11 @@ void DonHang::themMon(const MonGoi& mon) {
     danhSachMon_.push_back(mon);
 }
 double DonHang::tinhTongTien() const {
-   double tong = 0.0;
-for (const auto& mg : donHang.danhSachMon) {
-    if (mg.mon)
-        tong += mg.mon->gia * mg.soLuong;
-}
-return tong;
+    double tong = 0.0;
+    for (const auto& mg : danhSachMon_) {
+        tong += mg.gia * mg.soLuong;
+    }
+    return tong;
 }
 
 void DonHang::capNhatTrangThai(const std::string& tt) {
@@ -19,7 +18,7 @@ void DonHang::capNhatTrangThai(const std::string& tt) {
 }
 const std::string& DonHang::getTrangThai() const {
     return trangThai_;}
- std::string DonHang::xemChiTiet() const {
+    std::string DonHang::xemChiTiet() const {
     std::ostringstream os;
     os << "Don hang: " << maDon_ << " - Trang thai: " << trangThai_ << "\n";
     for (const auto& m : danhSachMon_)

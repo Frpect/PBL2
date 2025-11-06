@@ -34,6 +34,9 @@ public:
     // Lấy toàn bộ danh sách món
     std::vector<Mon> getDanhSachMon() const;
 
+    // Lấy con trỏ tới món theo chỉ số trong danh sách (trả về nullptr nếu không hợp lệ)
+    Mon* layMonTheoIndex(int index);
+
     // Tìm món theo ID
     std::optional<Mon> timMonTheoId(int id) const;
 

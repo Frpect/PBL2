@@ -15,7 +15,7 @@ protected:
 public:
     NhanSu() = default;
     NhanSu(std::string ma, std::string ten, std::string sdt, std::string gt,
-           std::string tk, std::string mk, double luong, std::string ca);
+           std::string username, std::string password, double luong, std::string ca);
 
     virtual ~NhanSu() = default;
 

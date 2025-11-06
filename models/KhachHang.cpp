@@ -2,11 +2,6 @@
 #include <sstream>
 #include <iostream>
 
-KhachHang::KhachHang(std::string ma, std::string ten, std::string sdt, std::string gt,
-                     int diem, std::string hang)
-    : User(std::move(ten), std::move(sdt), std::move(gt)),
-      maKhachHang_(std::move(ma)), diemTieuDung_(diem), hangThanhVien_(std::move(hang)) {}
-
 void KhachHang::datMon(const DonHang& don) {
     lichSuDon_.push_back(don);
     std::cout << "Khach hang " << hoTen_ << " da dat don hang: " << don.getMaDonHang() << "\n";
@@ -18,15 +13,6 @@ void KhachHang::thanhToan(DonHang& don) {
     diemTieuDung_ += static_cast<int>(tong / 100000); // cứ 100k = 1 điểm
 }
 
-std::string KhachHang::xemMenu() const {
-    std::ostringstream os;
-    os << "Danh muc mon an hien co (goi mau): \n"
-       << "- Burger: 45000 VND\n"
-       << "- Pepsi: 12000 VND\n"
-       << "- Com chien: 40000 VND\n";
-    return os.str();
-}
-
 std::string KhachHang::xemThongTin() const {
     std::ostringstream os;
     os << User::xemThongTin() << "\n"
@@ -34,4 +20,27 @@ std::string KhachHang::xemThongTin() const {
        << "Diem tich luy: " << diemTieuDung_ << "\n"
        << "Hang thanh vien: " << hangThanhVien_;
     return os.str();
+}
+std::string KhachHang::getMaKhachHang() const {
+    return maKhachHang_;
+}
+int KhachHang::idCounter_ = 0;
+KhachHang::KhachHang(std::string ten, std::string sdt, std::string gt)
+    : User(ten, sdt, gt), diemTieuDung_(0), hangThanhVien_("Thuong")
+{
+    idCounter_++;
+    maKhachHang_ = "KH" + std::to_string(idCounter_);
+}
+
+KhachHang::KhachHang(std::string username, std::string password, std::string hoTen, std::string sdt, std::string gt)
+    : User(username, password, hoTen, sdt, gt, Role::KHACH_HANG),
+      diemTieuDung_(0), hangThanhVien_("Thuong")
+{
+    idCounter_++;
+    maKhachHang_ = "KH" + std::to_string(idCounter_);
+}
+
+const std::vector<DonHang>& KhachHang::getLichSuDon() const
+{
+    return lichSuDon_;
 }
