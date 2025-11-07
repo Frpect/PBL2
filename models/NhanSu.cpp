@@ -3,9 +3,9 @@
 #include <iostream>
 
 NhanSu::NhanSu(std::string ma, std::string ten, std::string sdt, std::string gt,
-               std::string tk, std::string mk, double luong, std::string ca)
-    : User(std::move(ten), std::move(sdt), std::move(gt)),
-      maNhanVien_(std::move(ma)), taiKhoan_(std::move(tk)), matKhau_(std::move(mk)),
+               std::string username, std::string password, double luong, std::string ca)
+    : User(username, password, ten, sdt, gt, (ma.rfind("QL", 0) == 0) ? Role::QUAN_LY : Role::NHAN_VIEN),
+      maNhanVien_(std::move(ma)), taiKhoan_(std::move(username)), matKhau_(std::move(password)),
       luong_(luong), caLam_(std::move(ca)) {}
 
 const std::string& NhanSu::getMaNhanVien() const { return maNhanVien_; }

@@ -12,8 +12,8 @@ private:
     std::vector<DonHang> danhSachDonHang_;
 public:
     QuanLy() = default;
-    QuanLy(std::string ma, std::string ten, std::string sdt, std::string gt,
-           std::string ca, double luong);
+    // Constructor tiện lợi để tạo QuanLy từ thông tin đăng ký
+    QuanLy(std::string username, std::string password, std::string hoTen, std::string sdt, std::string gt, std::string ca, double luong);
 
     void themMon(const MonAn& mon);
     void xoaMon(const std::string& ten);

@@ -1,35 +1,24 @@
 #ifndef AUTHSERVICE_H
 #define AUTHSERVICE_H
-
+#include <memory>
 #include <string>
 #include <unordered_map>
+#include <iostream>
+#include "../models/User.h"
 
 class AuthService {
 private:
-    std::unordered_map<std::string, std::string> userDatabase; // username -> password
-    std::string currentUser;
+    std::unordered_map<std::string, std::unique_ptr<User>> userDatabase;
+    User* currentUser;
 
 public:
     AuthService();
-
-    // Đăng ký tài khoản mới
-    // Trả về: true nếu thành công, false nếu username đã tồn tại
-    bool registerUser(const std::string& username, const std::string& password);
-
-    // Đăng nhập
-    // Trả về: true nếu đúng mật khẩu, false nếu sai
-    bool login(const std::string& username, const std::string& password);
-
-    // Đăng xuất
+    bool registerUser(std::unique_ptr<User> user);
+    User* login(const std::string& username, const std::string& password);
     void logout();
-
-    // Kiểm tra có người đang đăng nhập không
     bool isLoggedIn() const;
-
-    // Lấy tên người dùng hiện tại
     std::string getCurrentUser() const;
-
-    // Kiểm tra xem tên đăng nhập đã tồn tại chưa (hỗ trợ kiểm tra khi nhập GUI)
+    Role getCurrentUserRole() const;
     bool userExists(const std::string& username) const;
 };
 

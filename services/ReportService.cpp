@@ -43,21 +43,21 @@ std::map<std::string, int> ReportService::thongKeMonBanChay(const std::vector<Do
 
 std::string ReportService::taoBaoCaoTongHop(const std::vector<DonHang>& danhSachDon) const {
     std::ostringstream oss;
-    oss << "===== BÁO CÁO TỔNG HỢP =====\n";
+    oss << "===== BAO CAO TONG HOP =====\n";
 
     double tongDoanhThu = tinhTongDoanhThu(danhSachDon);
     auto thongKeTT = thongKeTheoTrangThai(danhSachDon);
     auto thongKeMon = thongKeMonBanChay(danhSachDon);
 
     oss << "\n--- Doanh thu ---\n";
-    oss << "Tổng doanh thu: " << std::fixed << std::setprecision(2) << tongDoanhThu << " VND\n";
+    oss << "Tong doanh thu: " << std::fixed << std::setprecision(2) << tongDoanhThu << " VND\n";
 
-    oss << "\n--- Đơn hàng theo trạng thái ---\n";
+    oss << "\n--- Don hang theo trang thai ---\n";
     for (auto& [trangThai, soLuong] : thongKeTT) {
         oss << trangThai << ": " << soLuong << " đơn\n";
     }
 
-    oss << "\n--- Món bán chạy ---\n";
+    oss << "\n--- Mon ban chay ---\n";
     for (auto& [tenMon, tongSoLuong] : thongKeMon) {
         oss << tenMon << ": " << tongSoLuong << " phần\n";
     }

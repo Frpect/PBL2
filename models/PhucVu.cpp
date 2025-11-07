@@ -1,10 +1,13 @@
 #include "PhucVu.h"
 #include <sstream>
 
-PhucVu::PhucVu(std::string ma, std::string ten, std::string sdt, std::string gt,
-               std::string ca, double luong)
-    : NhanSu(std::move(ma), std::move(ten), std::move(sdt), std::move(gt),
-             ma, "123", luong, std::move(ca)) {}
+PhucVu::PhucVu(std::string username, std::string password, std::string hoTen, std::string sdt, std::string gt, std::string ca, double luong)
+    : NhanSu(username, // Dùng username làm mã nhân viên
+             hoTen,
+             sdt,
+             gt, username, password, luong, ca)
+{
+}
 
 void PhucVu::taoDonHang(const DonHang& dh) {
     danhSachDon_.push_back(dh);

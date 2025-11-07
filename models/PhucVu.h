@@ -11,8 +11,8 @@ private:
 
 public:
     PhucVu() = default;
-    PhucVu(std::string ma, std::string ten, std::string sdt, std::string gt,
-           std::string ca, double luong);
+    // Constructor tiện lợi để tạo PhucVu từ thông tin đăng ký
+    PhucVu(std::string username, std::string password, std::string hoTen, std::string sdt, std::string gt, std::string ca, double luong);
 
     void taoDonHang(const DonHang& dh);
     void guiOrderXuongBep(const std::string& maDon);

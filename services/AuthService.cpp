@@ -1,36 +1,52 @@
 #include "AuthService.h"
 
-AuthService::AuthService() : currentUser("") {}
+AuthService::AuthService() : currentUser(nullptr) {}
 
-bool AuthService::registerUser(const std::string& username, const std::string& password) {
-    if (userDatabase.find(username) != userDatabase.end()) {
+// Đăng ký tài khoản mới với role
+bool AuthService::registerUser(std::unique_ptr<User> user) {
+    if (!user || userDatabase.find(user->getUsername()) != userDatabase.end()) {
+        std::cout << "Ten dang nhap da ton tai!\n";
         return false; // username đã tồn tại
     }
-    userDatabase[username] = password;
+    userDatabase[user->getUsername()] = std::move(user);
     return true;
 }
 
-bool AuthService::login(const std::string& username, const std::string& password) {
+// Đăng nhập: trả về User* nếu đúng, nullptr nếu sai
+User* AuthService::login(const std::string& username, const std::string& password) {
     auto it = userDatabase.find(username);
-    if (it != userDatabase.end() && it->second == password) {
-        currentUser = username;
-        return true;
+    if (it != userDatabase.end() && it->second->getPassword() == password) {
+        currentUser = it->second.get();
+        return currentUser;
     }
-    return false;
+    return nullptr;
 }
 
+// Đăng xuất
 void AuthService::logout() {
-    currentUser.clear();
+    currentUser = nullptr;
 }
 
+// Kiểm tra có người đang đăng nhập không
 bool AuthService::isLoggedIn() const {
-    return !currentUser.empty();
+    return currentUser != nullptr;
 }
 
+// Lấy tên người dùng hiện tại
 std::string AuthService::getCurrentUser() const {
-    return currentUser;
+    if (currentUser)
+        return currentUser->getUsername();
+    return "";
 }
 
+// Lấy vai trò người dùng hiện tại
+Role AuthService::getCurrentUserRole() const {
+    if (currentUser)
+        return currentUser->role;
+    return Role::KHACH_HANG; // mặc định nếu chưa đăng nhập
+}
+
+// Kiểm tra xem tên đăng nhập đã tồn tại chưa
 bool AuthService::userExists(const std::string& username) const {
     return userDatabase.find(username) != userDatabase.end();
 }

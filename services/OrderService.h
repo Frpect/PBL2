@@ -4,6 +4,7 @@
 #include <string>
 #include <vector>
 #include <optional>
+#include <unordered_map>
 #include "../models/DonHang.h"  // Thêm include để chuyển đổi
 
 // Forward declare Mon (được định nghĩa trong MenuService.h)
@@ -45,7 +46,11 @@ public:
     std::vector<std::string> getDanhSachThongTinDonHang() const;
     std::optional<int> timDonHangTheoId(const std::string& tenKhach) const;
     bool xoaDonHang(int idDonHang);
+    ::DonHang layDonHang(int id) const;
     void clear();
+
+    // Giải phóng bộ nhớ cache
+    void clearCache();
 
     // Thêm getter trả về vector của models::DonHang
     std::vector<::DonHang> getDanhSachDonHang() const;
