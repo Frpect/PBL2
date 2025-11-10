@@ -4,6 +4,9 @@
 #include "User.h"
 #include <string>
 
+// Forward declaration
+class AuthService;
+
 class NhanSu : public User {
 protected:
     std::string maNhanVien_;
@@ -26,8 +29,9 @@ public:
     void setCaLam(const std::string& ca);
     void setLuong(double luong);
 
-    bool dangNhap(const std::string& tk, const std::string& mk) const;
-    void dangXuat() const;
+    // Sử dụng AuthService nếu có, nếu không thì kiểm tra trực tiếp
+    bool dangNhap(const std::string& tk, const std::string& mk, AuthService* authService = nullptr) const;
+    void dangXuat(AuthService* authService = nullptr) const;
 
     virtual std::string xemThongTin() const override;
 };

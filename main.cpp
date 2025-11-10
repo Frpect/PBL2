@@ -3,6 +3,10 @@
 #include <limits>
 #include <vector>
 #include <algorithm> // Thêm thư viện cho std::find_if
+#include "utils/Input.h"
+#include "storage/UserRepo.h"
+#include "storage/MenuRepo.h"
+#include "storage/OrderRepo.h"
 
 // Thêm thư viện Windows để sửa lỗi font tiếng Việt trên console
 #ifdef _WIN32
@@ -12,31 +16,27 @@
 using namespace std;
 
 // Services
-#include "services/AuthService.h"
-#include "services/MenuService.h"
-#include "services/OrderService.h"
-#include "services/ReportService.h"
+#include "AuthService.h"
+#include "MenuService.h"
+#include "OrderService.h"
+#include "ReportService.h"
 
 // Models
-#include "models/User.h"
-#include "models/KhachHang.h"
-#include "models/DonHang.h"
-#include "models/NhanSu.h"
-#include "models/NhanVienBep.h"
-#include "models/PhucVu.h"
-#include "models/QuanLy.h"
-#include "models/MonAn.h"
-#include "models/Ban.h"
+#include "User.h"
+#include "KhachHang.h"
+#include "DonHang.h"
+#include "NhanSu.h"
+#include "NhanVienBep.h"
+#include "PhucVu.h"
+#include "QuanLy.h"
+#include "MonAn.h"
+#include "Ban.h"
 
 // Menu Khách hàng
 void menuKhachHang(MenuService& menu, OrderService& order) {
-    string tenKhach, sdt, gioiTinh;
-    cout << "Nhap ten khach hang: ";
-    getline(cin, tenKhach);
-    cout << "Nhap so dien thoai: ";
-    getline(cin, sdt);
-    cout << "Nhap gioi tinh: ";
-    getline(cin, gioiTinh);
+    string tenKhach = Input::readString("Nhap ten khach hang: ");
+    string sdt = Input::readString("Nhap so dien thoai: ");
+    string gioiTinh = Input::readString("Nhap gioi tinh: ");
 
     // Tạo Khách hàng mới (mã tự động)
     KhachHang khach(tenKhach, sdt, gioiTinh);
@@ -49,11 +49,7 @@ void menuKhachHang(MenuService& menu, OrderService& order) {
         cout << "3. Tao don hang moi\n";
         cout << "4. Xem lich su don hang\n";
         cout << "0. Quay lai\n";
-        cout << "Chon: ";
-
-        int choice;
-        cin >> choice;
-        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        int choice = Input::readInt("Chon: ", 0, 4);
 
         if (choice == 0) break;
         else if (choice == 1) {
@@ -73,25 +69,29 @@ void menuKhachHang(MenuService& menu, OrderService& order) {
         }
         else if (choice == 3) {
             int idDon = order.taoDonHang(khach.getHoTen());
-            int n;
-            cout << "Nhap so mon muon goi: ";
-            cin >> n;
-            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            int n = Input::readInt("Nhap so mon muon goi: ", 1, 1000);
 
-            auto danhSach = menu.getDanhSachMon();
             for (int i = 0; i < n; i++) {
-                int idMon, sl;
-                cout << "Nhap ID mon an: ";
-                cin >> idMon;
-                cout << "So luong: ";
-                cin >> sl;
-                cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                if (Input::confirm("Ban co muon tim nhanh theo ten truoc khong?")) {
+                    string q = Input::readString("Nhap chuoi tim: ");
+                    auto ds = menu.searchMonTheoPrefix(q, 10);
+                    if (ds.empty()) cout << "Khong co ket qua.\n";
+                    else {
+                        cout << "Goi y:\n";
+                        for (const auto& m : ds) cout << m.id << " | " << m.tenMon << " | " << m.gia << "\n";
+                    }
+                }
+                int idMon = Input::readInt("Nhap ID mon an: ", 1, 1000000);
+                int sl = Input::readInt("So luong: ", 1, 1000);
 
-                // Tìm món ăn theo ID thật sự thay vì vị trí
-                auto it = std::find_if(danhSach.begin(), danhSach.end(), [idMon](const Mon& m){ return m.id == idMon; });
-
-                if (it != danhSach.end()) {
-                    order.themMonVaoDon(idDon, &(*it), sl);
+                auto opt = menu.timMonTheoId(idMon);
+                if (opt.has_value()) {
+                    // Need a pointer for OrderService; getDanhSachMon() to find address
+                    auto ds = menu.getDanhSachMon();
+                    Mon* ptr = nullptr;
+                    for (auto& m : ds) if (m.id == idMon) { ptr = &m; break; }
+                    if (ptr) order.themMonVaoDon(idDon, ptr, sl);
+                    else cout << "Khong the tham chieu mon trong danh sach.\n";
                 } else {
                     cout << "ID mon an khong hop le. Bo qua.\n";
                 }
@@ -101,9 +101,7 @@ void menuKhachHang(MenuService& menu, OrderService& order) {
             khach.datMon(don);
 
             cout << "Don hang #" << idDon << " da tao.\n";
-            cout << "Ban co muon thanh toan don hang nay luon khong? (y/n): ";
-            string c; getline(cin, c);
-            if (c == "y" || c == "Y") {
+            if (Input::confirm("Ban co muon thanh toan don hang nay luon khong?")) {
                 khach.thanhToan(don);
                 cout << "Da thanh toan don hang #" << idDon 
                      << " | Tong tien: " << don.tinhTongTien() << " VND\n";
@@ -137,9 +135,7 @@ void menuNhanVien(User* user, OrderService& order, ReportService& report) {
         cout << "4. Tao bao cao tong hop\n";
         cout << "5. In hoa don\n"; // Chức năng này đã có
         cout << "0. Dang xuat\n"; // Đổi "Quay lai" thành "Dang xuat"
-        cout << "Chon: ";
-
-        int choice; cin >> choice; cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        int choice = Input::readInt("Chon: ", 0, 5);
         if (choice == 0) {
             // Không cần gọi auth.logout() ở đây vì vòng lặp chính sẽ xử lý
             break;
@@ -159,15 +155,13 @@ void menuNhanVien(User* user, OrderService& order, ReportService& report) {
             }
         }
         else if (choice == 3) {
-            int id; string tt;
-            cout << "Nhap ID don hang: "; cin >> id; 
-            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            int id = Input::readInt("Nhap ID don hang: ", 1, 1000000);
             auto danhSachDon = order.getDanhSachDonHang();
             bool tonTai = false;
             for (auto& d : danhSachDon)
                 if (d.getMaDonHang() == "DH" + to_string(id)) { tonTai = true; break; }
             if (!tonTai) { cout << "Khong tim thay don hang!\n"; continue; }
-            cout << "Nhap trang thai moi: "; getline(cin, tt);
+            string tt = Input::readString("Nhap trang thai moi: ");
             if (order.capNhatTrangThai(id, tt))
                 cout << "Da cap nhat don #" << id << " thanh " << tt << "\n";
             else
@@ -178,10 +172,7 @@ void menuNhanVien(User* user, OrderService& order, ReportService& report) {
             cout << "\n===== BAO CAO TONG HOP =====\n" << baoCao << endl;
         }
         else if (choice == 5) {
-            int id;
-            cout << "Nhap ID don hang can in hoa don: ";
-            cin >> id;
-            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            int id = Input::readInt("Nhap ID don hang can in hoa don: ", 1, 1000000);
 
             try {
                 // Lấy thông tin đơn hàng từ OrderService
@@ -206,11 +197,10 @@ void menuQuanLy(User* user, MenuService& menu, OrderService& order, ReportServic
         cout << "1. Xem thong tin ca nhan\n";
         cout << "2. Chuc nang nhan vien\n";
         cout << "3. Quan ly menu\n";
-        cout << "4. Tao bao cao tong hop\n";
+        cout << "4. Tim mon nhanh (prefix)\n";
+        cout << "5. Tao bao cao tong hop\n";
         cout << "0. Dang xuat\n"; // Đổi "Quay lai" thành "Dang xuat"
-        cout << "Chon: ";
-
-        int choice; cin >> choice; cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        int choice = Input::readInt("Chon: ", 0, 5);
         if (choice == 0) {
             // Không cần gọi auth.logout() ở đây vì vòng lặp chính sẽ xử lý
             break;
@@ -222,9 +212,8 @@ void menuQuanLy(User* user, MenuService& menu, OrderService& order, ReportServic
         else if (choice == 2) menuNhanVien(user, order, report);
         else if (choice == 3) {
             while (true) {
-                cout << "\n1. Xem danh sach mon\n2. Them mon moi\n0. Quay lai\nChon: ";
-                int sub; cin >> sub; 
-                cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                cout << "\n1. Xem danh sach mon\n2. Them mon moi\n3. Sua mon theo ID\n4. Xoa mon theo ID\n0. Quay lai\n";
+                int sub = Input::readInt("Chon: ", 0, 4);
                 if (sub == 0) break;
                 else if (sub == 1) {
                     auto danhSachMon = menu.getDanhSachMon();
@@ -234,17 +223,35 @@ void menuQuanLy(User* user, MenuService& menu, OrderService& order, ReportServic
                              << " | " << danhSachMon[i].moTa << "\n";
                 }
                 else if (sub == 2) {
-                    string ten, moTa; double gia;
-                    cout << "Nhap ten mon: "; getline(cin, ten);
-                    cout << "Nhap gia: "; cin >> gia; 
-                    cin.ignore(numeric_limits<streamsize>::max(), '\n');
-                    cout << "Nhap mo ta: "; getline(cin, moTa);
+                    string ten = Input::readString("Nhap ten mon: ");
+                    double gia = Input::readDouble("Nhap gia: ", 0, 1e9);
+                    string moTa = Input::readString("Nhap mo ta: ", true);
                     menu.themMon(ten, gia, moTa);
                     cout << "Da them mon: " << ten << "\n";
+                }
+                else if (sub == 3) {
+                    int id = Input::readInt("Nhap ID mon can sua: ", 1, 1000000000);
+                    string ten = Input::readString("Nhap ten moi: ");
+                    double gia = Input::readDouble("Nhap gia moi: ", 0, 1e9);
+                    string moTa = Input::readString("Nhap mo ta moi: ", true);
+                    if (menu.capNhatMon(id, ten, gia, moTa)) cout << "Da cap nhat.\n"; else cout << "Khong tim thay ID.\n";
+                }
+                else if (sub == 4) {
+                    int id = Input::readInt("Nhap ID mon can xoa: ", 1, 1000000000);
+                    if (menu.xoaMon(id)) cout << "Da xoa.\n"; else cout << "Khong tim thay ID.\n";
                 }
             }
         }
         else if (choice == 4) {
+            string q = Input::readString("Nhap chuoi tim: ");
+            auto ds = menu.searchMonTheoPrefix(q, 10);
+            if (ds.empty()) cout << "Khong co ket qua.\n";
+            else {
+                cout << "Goi y:\n";
+                for (const auto& m : ds) cout << m.id << " | " << m.tenMon << " | " << m.gia << "\n";
+            }
+        }
+        else if (choice == 5) {
             auto baoCao = report.taoBaoCaoTongHop(order.getDanhSachDonHang());
             cout << "\n===== BAO CAO TONG HOP =====\n" << baoCao << endl;
         }
@@ -263,15 +270,28 @@ int main() {
     OrderService order;
     ReportService report;
 
-    // Khởi tạo menu mẫu
-    menu.themMon("Hamburger", 50000, "Hamburger bo pho mai");
-    menu.themMon("Pizza", 120000, "Pizza hai san");
-    menu.themMon("Khoai tay chien", 25000, "Khoai tay chien gion");
+    // Storage wiring
+    Repo::UserRepo userRepo(auth);
+    Repo::MenuRepo menuRepo(menu);
+    Repo::OrderRepo orderRepo(order);
+    // Load persisted data (if any). If missing, keep sample defaults.
+    bool loadedUsers = userRepo.load();
+    bool loadedMenu = menuRepo.load();
+    bool loadedOrders = orderRepo.load();
+
+    // Nếu không có dữ liệu, khởi tạo mẫu
+    if (!loadedMenu) {
+        menu.themMon("Hamburger", 50000, "Hamburger bo pho mai");
+        menu.themMon("Pizza", 120000, "Pizza hai san");
+        menu.themMon("Khoai tay chien", 25000, "Khoai tay chien gion");
+    }
 
     // Tạo tài khoản mẫu
-    auth.registerUser(make_unique<KhachHang>("khach1", "1111", "Le Van Tien", "0901112222", "Nam"));
-    auth.registerUser(make_unique<PhucVu>("nv1", "2222", "Nguyen Tat Hoang", "0903334444", "Nam", "Ca sang", 8000000));
-    auth.registerUser(make_unique<QuanLy>("QL1", "3333", "Vo Minh Triet", "0905556666", "Nam", "Ca ngay", 15000000));
+    if (!loadedUsers) {
+        auth.registerUser(make_unique<KhachHang>("khach1", "1111", "Le Van Tien", "0901112222", "Nam"));
+        auth.registerUser(make_unique<PhucVu>("nv1", "2222", "Nguyen Tat Hoang", "0903334444", "Nam", "Ca sang", 8000000));
+        auth.registerUser(make_unique<QuanLy>("QL1", "3333", "Vo Minh Triet", "0905556666", "Nam", "Ca ngay", 15000000));
+    }
 
     while (true) {
         cout << "\n===== HE THONG QUAN LY NHA HANG =====\n";
@@ -279,24 +299,17 @@ int main() {
         cout << "2. Dang nhap\n";
         cout << "3. Vao menu khach (khong can dang nhap)\n";
         cout << "0. Thoat\n";
-        cout << "Chon: ";
-
-        int choice;
-        cin >> choice;
-        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        int choice = Input::readInt("Chon: ", 0, 3);
 
         if (choice == 0) break;
 
         else if (choice == 1) {
-            string username, password;
-            int r; string ten, sdt, gt;
-            cout << "Nhap ten dang nhap: "; getline(cin, username);
-            cout << "Nhap mat khau: "; getline(cin, password);
-            cout << "Nhap ho ten: "; getline(cin, ten);
-            cout << "Nhap so dien thoai: "; getline(cin, sdt);
-            cout << "Nhap gioi tinh: "; getline(cin, gt);
-            cout << "Chon vai tro (1: Khach hang, 2: Nhan vien, 3: Quan ly): ";
-            cin >> r; cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            string username = Input::readString("Nhap ten dang nhap: ");
+            string password = Input::readString("Nhap mat khau: ");
+            string ten = Input::readString("Nhap ho ten: ");
+            string sdt = Input::readString("Nhap so dien thoai: ");
+            string gt = Input::readString("Nhap gioi tinh: ");
+            int r = Input::readInt("Chon vai tro (1: Khach hang, 2: Nhan vien, 3: Quan ly): ", 1, 3);
 
             bool success = false;
             if (r == 1) {
@@ -312,9 +325,8 @@ int main() {
         }
 
         else if (choice == 2) {
-            string username, password;
-            cout << "Nhap ten dang nhap: "; getline(cin, username);
-            cout << "Nhap mat khau: "; getline(cin, password);
+            string username = Input::readString("Nhap ten dang nhap: ");
+            string password = Input::readString("Nhap mat khau: ");
 
             User* user = auth.login(username, password);
             if (!user) {
@@ -343,6 +355,11 @@ int main() {
             cout << "Lua chon khong hop le. Vui long thu lai!\n";
         }
     }
+
+    // Save data on exit
+    userRepo.save();
+    menuRepo.save();
+    orderRepo.save();
 
     cout << "\n=== CHUONG TRINH KET THUC ===\n";
     return 0;

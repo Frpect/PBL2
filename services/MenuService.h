@@ -4,6 +4,8 @@
 #include <string>
 #include <vector>
 #include <optional>
+#include <unordered_map>
+#include "SearchIndex.h"
 
 // Cấu trúc mô tả một món ăn / món gọi trong menu
 struct Mon {
@@ -18,12 +20,16 @@ class MenuService {
 private:
     std::vector<Mon> danhSachMon;
     int nextId; // Tự tăng ID
+    std::unordered_map<int, size_t> idToIndex; // id -> index in vector
+    SearchIndex index_; // prefix index
 
 public:
     MenuService();
 
     // Thêm món mới vào menu
     bool themMon(const std::string& tenMon, double gia, const std::string& moTa = "");
+    // Thêm món với ID cố định (phục vụ load)
+    void addMonWithId(const Mon& mon);
 
     // Xóa món theo ID
     bool xoaMon(int id);
@@ -45,6 +51,17 @@ public:
 
     // Xóa toàn bộ menu (nếu cần reset)
     void clear();
+
+    // Hooks for persistence
+    void loadFromList(const std::vector<Mon>& items);
+    std::vector<Mon> exportAll() const { return getDanhSachMon(); }
+
+    // Indexing + search
+    void rebuildIndex();
+    std::vector<Mon> searchMonTheoPrefix(const std::string& q, size_t topN = 10) const;
+
+    // Set nextId when loading
+    void setNextId(int value) { nextId = value; }
 };
 
 #endif // MENUSERVICE_H

@@ -50,3 +50,12 @@ Role AuthService::getCurrentUserRole() const {
 bool AuthService::userExists(const std::string& username) const {
     return userDatabase.find(username) != userDatabase.end();
 }
+
+std::vector<const User*> AuthService::getAllUsers() const {
+    std::vector<const User*> out;
+    out.reserve(userDatabase.size());
+    for (const auto& p : userDatabase) {
+        out.push_back(p.second.get());
+    }
+    return out;
+}

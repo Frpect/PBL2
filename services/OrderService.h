@@ -5,7 +5,7 @@
 #include <vector>
 #include <optional>
 #include <unordered_map>
-#include "../models/DonHang.h"  // Thêm include để chuyển đổi
+#include "DonHang.h"  // Thêm include để chuyển đổi
 
 // Forward declare Mon (được định nghĩa trong MenuService.h)
 struct Mon;
@@ -48,6 +48,9 @@ public:
     bool xoaDonHang(int idDonHang);
     ::DonHang layDonHang(int id) const;
     void clear();
+
+    // Hooks for persistence (export only; limited import in OrderRepo)
+    std::vector<::DonHang> exportAll() const { return getDanhSachDonHang(); }
 
     // Giải phóng bộ nhớ cache
     void clearCache();

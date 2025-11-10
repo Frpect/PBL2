@@ -7,7 +7,8 @@ file(GLOB_RECURSE SRC CONFIGURE_DEPENDS
     "${CMAKE_SOURCE_DIR}/UI/*.cpp"
     "${CMAKE_SOURCE_DIR}/storage/*.cpp"
     "${CMAKE_SOURCE_DIR}/services/*.cpp"
- 
+    "${CMAKE_SOURCE_DIR}/models/*.cpp"
+    "${CMAKE_SOURCE_DIR}/utils/*.cpp"
 )
 add_executable(PBL2 ${SRC})
 
@@ -22,6 +23,7 @@ include_directories(
     ${CMAKE_SOURCE_DIR}/storage
     ${CMAKE_SOURCE_DIR}/UI
     ${CMAKE_SOURCE_DIR}/models
+    ${CMAKE_SOURCE_DIR}/utils
 )
 include_directories("C:/msys64/mingw64/include/SDL2")
 

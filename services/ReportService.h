@@ -4,8 +4,8 @@
 #include <string>
 #include <vector>
 #include <map>
-// DonHang is defined in ../models/DonHang.h
-#include "../models/DonHang.h"
+// DonHang is defined in DonHang.h
+#include "DonHang.h"
 
 class ReportService {
 public:

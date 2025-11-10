@@ -8,11 +8,28 @@
 				"E:/PBL2/DUAN/UI/BaseObject.cpp",
 				"E:/PBL2/DUAN/UI/Button.cpp",
 				"E:/PBL2/DUAN/UI/Common.cpp",
+				"E:/PBL2/DUAN/UI/FunctionState.cpp",
 				"E:/PBL2/DUAN/UI/LoginState.cpp",
 				"E:/PBL2/DUAN/UI/LoginTabs.cpp",
 				"E:/PBL2/DUAN/UI/State.cpp",
 				"E:/PBL2/DUAN/UI/Tab.cpp",
 				"E:/PBL2/DUAN/UI/TextInput.cpp"
+			],
+			"recurse" : true
+		},
+		{
+			"expression" : "E:/PBL2/DUAN/models/*.cpp",
+			"paths" : 
+			[
+				"E:/PBL2/DUAN/models/Ban.cpp",
+				"E:/PBL2/DUAN/models/DonHang.cpp",
+				"E:/PBL2/DUAN/models/KhachHang.cpp",
+				"E:/PBL2/DUAN/models/MonAn.cpp",
+				"E:/PBL2/DUAN/models/NhanSu.cpp",
+				"E:/PBL2/DUAN/models/NhanVienBep.cpp",
+				"E:/PBL2/DUAN/models/PhucVu.cpp",
+				"E:/PBL2/DUAN/models/QuanLy.cpp",
+				"E:/PBL2/DUAN/models/User.cpp"
 			],
 			"recurse" : true
 		},
@@ -26,6 +43,7 @@
 				"E:/PBL2/DUAN/services/MenuService.cpp",
 				"E:/PBL2/DUAN/services/OrderService.cpp",
 				"E:/PBL2/DUAN/services/ReportService.cpp",
+				"E:/PBL2/DUAN/services/SearchIndex.cpp",
 				"E:/PBL2/DUAN/services/TableService.cpp"
 			],
 			"recurse" : true
@@ -43,7 +61,18 @@
 			"paths" : 
 			[
 				"E:/PBL2/DUAN/storage/FileStorage.cpp",
+				"E:/PBL2/DUAN/storage/MenuRepo.cpp",
+				"E:/PBL2/DUAN/storage/OrderRepo.cpp",
+				"E:/PBL2/DUAN/storage/UserRepo.cpp",
 				"E:/PBL2/DUAN/storage/dull.cpp"
+			],
+			"recurse" : true
+		},
+		{
+			"expression" : "E:/PBL2/DUAN/utils/*.cpp",
+			"paths" : 
+			[
+				"E:/PBL2/DUAN/utils/Input.cpp"
 			],
 			"recurse" : true
 		}

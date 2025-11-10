@@ -8,11 +8,30 @@ set(OLD_GLOB
   "E:/PBL2/DUAN/UI/BaseObject.cpp"
   "E:/PBL2/DUAN/UI/Button.cpp"
   "E:/PBL2/DUAN/UI/Common.cpp"
+  "E:/PBL2/DUAN/UI/FunctionState.cpp"
   "E:/PBL2/DUAN/UI/LoginState.cpp"
   "E:/PBL2/DUAN/UI/LoginTabs.cpp"
   "E:/PBL2/DUAN/UI/State.cpp"
   "E:/PBL2/DUAN/UI/Tab.cpp"
   "E:/PBL2/DUAN/UI/TextInput.cpp"
+  )
+if(NOT "${NEW_GLOB}" STREQUAL "${OLD_GLOB}")
+  message("-- GLOB mismatch!")
+  file(TOUCH_NOCREATE "E:/PBL2/DUAN/build/ninja-Debug/CMakeFiles/cmake.verify_globs")
+endif()
+
+# SRC at CMakeLists.txt:5 (file)
+file(GLOB_RECURSE NEW_GLOB LIST_DIRECTORIES false "E:/PBL2/DUAN/models/*.cpp")
+set(OLD_GLOB
+  "E:/PBL2/DUAN/models/Ban.cpp"
+  "E:/PBL2/DUAN/models/DonHang.cpp"
+  "E:/PBL2/DUAN/models/KhachHang.cpp"
+  "E:/PBL2/DUAN/models/MonAn.cpp"
+  "E:/PBL2/DUAN/models/NhanSu.cpp"
+  "E:/PBL2/DUAN/models/NhanVienBep.cpp"
+  "E:/PBL2/DUAN/models/PhucVu.cpp"
+  "E:/PBL2/DUAN/models/QuanLy.cpp"
+  "E:/PBL2/DUAN/models/User.cpp"
   )
 if(NOT "${NEW_GLOB}" STREQUAL "${OLD_GLOB}")
   message("-- GLOB mismatch!")
@@ -28,6 +47,7 @@ set(OLD_GLOB
   "E:/PBL2/DUAN/services/MenuService.cpp"
   "E:/PBL2/DUAN/services/OrderService.cpp"
   "E:/PBL2/DUAN/services/ReportService.cpp"
+  "E:/PBL2/DUAN/services/SearchIndex.cpp"
   "E:/PBL2/DUAN/services/TableService.cpp"
   )
 if(NOT "${NEW_GLOB}" STREQUAL "${OLD_GLOB}")
@@ -49,7 +69,20 @@ endif()
 file(GLOB_RECURSE NEW_GLOB LIST_DIRECTORIES false "E:/PBL2/DUAN/storage/*.cpp")
 set(OLD_GLOB
   "E:/PBL2/DUAN/storage/FileStorage.cpp"
+  "E:/PBL2/DUAN/storage/MenuRepo.cpp"
+  "E:/PBL2/DUAN/storage/OrderRepo.cpp"
+  "E:/PBL2/DUAN/storage/UserRepo.cpp"
   "E:/PBL2/DUAN/storage/dull.cpp"
+  )
+if(NOT "${NEW_GLOB}" STREQUAL "${OLD_GLOB}")
+  message("-- GLOB mismatch!")
+  file(TOUCH_NOCREATE "E:/PBL2/DUAN/build/ninja-Debug/CMakeFiles/cmake.verify_globs")
+endif()
+
+# SRC at CMakeLists.txt:5 (file)
+file(GLOB_RECURSE NEW_GLOB LIST_DIRECTORIES false "E:/PBL2/DUAN/utils/*.cpp")
+set(OLD_GLOB
+  "E:/PBL2/DUAN/utils/Input.cpp"
   )
 if(NOT "${NEW_GLOB}" STREQUAL "${OLD_GLOB}")
   message("-- GLOB mismatch!")

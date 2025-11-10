@@ -97,17 +97,24 @@ LoginTab::LoginTab()
 {
     bG_.loadImg("assets/img/LoginTab.png",screen);
     // Inputs
-    usernameInput_ = std::make_unique<TextInput>(450, 320, 380, 48, "Tên đăng nhập", false);
-    passwordInput_ = std::make_unique<TextInput>(450, 390, 380, 48, "Mật khẩu", true);
+    usernameInput_ = std::make_unique<TextInput>(460, 365, 380, 48, "Tên đăng nhập", false);
+    passwordInput_ = std::make_unique<TextInput>(460, 490, 380, 48, "Mật khẩu", false);
     auto btn = std::make_unique<Button2>(
     "assets/img/ExitButton.png",
     "assets/img/HExitButton.png",
     screen,
     1170, 625,
     "",
-    SDL_Color{255, 255, 255, 255},
+    SDL_Color{0,0,0,255},
     font);  
-    buttons_.push_back(std::move(btn));  
+    buttons_.push_back(std::move(btn)); 
+    buttons_.push_back(std::make_unique<Button>(
+        430, 550, 470, 70,
+        SDL_Color{249, 168, 37, 255},
+        SDL_Color{255, 183, 5, 255},
+        "LOGIN",
+        SDL_Color{255, 255, 255, 255},
+        font)); 
 
 }//load cac image, bg vao truoc
 LoginTab::~LoginTab()=default;

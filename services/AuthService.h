@@ -4,7 +4,8 @@
 #include <string>
 #include <unordered_map>
 #include <iostream>
-#include "../models/User.h"
+#include<vector>
+#include "User.h"
 
 class AuthService {
 private:
@@ -20,6 +21,8 @@ public:
     std::string getCurrentUser() const;
     Role getCurrentUserRole() const;
     bool userExists(const std::string& username) const;
+    // Export all users for persistence
+    std::vector<const User*> getAllUsers() const;
 };
 
 #endif
