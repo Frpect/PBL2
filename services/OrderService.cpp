@@ -120,19 +120,6 @@ bool OrderService::xoaDonHang(int idDonHang) {
 void OrderService::clear() {
     danhSachDonHang.clear();
     nextId = 1;
-    clearCache();
-}
-
-void OrderService::clearCache() {
-    static std::unordered_map<int, ::DonHang*>& cache = []() -> std::unordered_map<int, ::DonHang*>& {
-        static std::unordered_map<int, ::DonHang*> instance;
-        return instance;
-    }();
-    
-    for (auto& pair : cache) {
-        delete pair.second;
-    }
-    cache.clear();
 }
 
 double OrderService::tinhTongTien(const DonHang& donHang) const {
@@ -144,23 +131,11 @@ double OrderService::tinhTongTien(const DonHang& donHang) const {
     return tong;
 }
 ::DonHang OrderService::chuyenDoi(const DonHang& don) const {
-    static std::unordered_map<int, ::DonHang*> cacheDonHang;
-    
-    // Kiểm tra xem đơn hàng đã được chuyển đổi trước đó chưa
-    if (cacheDonHang.find(don.id) != cacheDonHang.end()) {
-        ::DonHang* cached = cacheDonHang[don.id];
-        // Chỉ cập nhật trạng thái nếu thay đổi
-        if (cached->getTrangThai() != don.trangThai) {
-            cached->capNhatTrangThai(don.trangThai);
-        }
-        return *cached;
-    }
-    
-    // Nếu chưa có, tạo mới đơn hàng
+    // Loại bỏ cache để tránh memory leak và lỗi logic. Tạo đối tượng mới mỗi lần gọi.
     std::ostringstream oss;
     oss << "DH" << don.id;
-    ::DonHang* ketQua = new ::DonHang(oss.str(), std::to_string(don.id), "");
-    ketQua->capNhatTrangThai(don.trangThai);
+    ::DonHang ketQua(oss.str(), std::to_string(don.id), "");
+    ketQua.capNhatTrangThai(don.trangThai);
     
     for (const auto& item : don.danhSachMon) {
         if (item.mon) {
@@ -168,13 +143,9 @@ double OrderService::tinhTongTien(const DonHang& donHang) const {
             mg.tenMon = item.mon->tenMon;
             mg.gia = item.mon->gia;
             mg.soLuong = item.soLuong;
-            ketQua->themMon(mg);
+            ketQua.themMon(mg);
         }
-    }
-    
-    // Lưu vào cache
-    cacheDonHang[don.id] = ketQua;
-    return *ketQua;
+    }    return ketQua;
 }
 
 std::vector<::DonHang> OrderService::getDanhSachDonHang() const {

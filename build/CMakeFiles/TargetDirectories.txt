@@ -1,4 +1,0 @@
-E:/PBL2/DUAN/build/CMakeFiles/MyPBL2project.dir
-E:/PBL2/DUAN/build/CMakeFiles/PBL2.dir
-E:/PBL2/DUAN/build/CMakeFiles/edit_cache.dir
-E:/PBL2/DUAN/build/CMakeFiles/rebuild_cache.dir

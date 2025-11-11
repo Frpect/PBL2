@@ -9,6 +9,9 @@
 // Forward declarations
 class MenuService;
 class ReportService;
+class OrderService;
+class AuthService;
+class TableService;
 
 class QuanLy : public NhanSu {
 private:
@@ -23,8 +26,19 @@ public:
     void themMon(const MonAn& mon, MenuService* menuService = nullptr);
     void xoaMon(const std::string& ten, MenuService* menuService = nullptr);
     
+    // Sử dụng TableService nếu có
+    void themBan(const std::string& maBan, TableService* tableService = nullptr);
+    void capNhatTrangThaiBan(const std::string& maBan, const std::string& trangThaiMoi, TableService* tableService = nullptr);
+    void hienThiSoDoBan(TableService* tableService = nullptr) const;
+
     // Sử dụng ReportService nếu có
     std::string baoCaoDoanhThu(ReportService* reportService = nullptr) const;
+    void xemDoanhThuTheoThoiGian(ReportService* reportService, OrderService* orderService) const;
+
+    // Sử dụng AuthService để quản lý nhân sự
+    void xemDanhSachNhanVien(AuthService* authService) const;
+    void themNhanVien(AuthService* authService);
+    void xoaNhanVien(AuthService* authService);
     
     std::string xemThongTin() const override;
     void themDonHang(const DonHang& don) { danhSachDonHang_.push_back(don); }

@@ -1,10 +1,17 @@
 #include "Ban.h"
+#include <utility>
 
-Ban::Ban(std::string ma, std::string tt) : maBan_(std::move(ma)), trangThai_(std::move(tt)) {}
+// Sử dụng tên biến thành viên và tham số khớp với Ban.h
+Ban::Ban(const std::string& maBan, const std::string& trangThai) 
+    : maBan(maBan), trangThai(trangThai) {}
 
-const std::string& Ban::getMaBan() const { return maBan_; }
-const std::string& Ban::getTrangThai() const { return trangThai_; }
+const std::string& Ban::getMaBan() const { 
+    return maBan; 
+}
+const std::string& Ban::getTrangThai() const { 
+    return trangThai; 
+}
 
-void Ban::capNhatTrangThai(const std::string& tt) {
-    trangThai_ = tt;
+void Ban::capNhatTrangThai(const std::string& trangThaiMoi) {
+    this->trangThai = trangThaiMoi;
 }

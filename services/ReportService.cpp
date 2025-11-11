@@ -65,3 +65,28 @@ std::string ReportService::taoBaoCaoTongHop(const std::vector<DonHang>& danhSach
     oss << "===============================\n";
     return oss.str();
 }
+
+std::string ReportService::taoBaoCaoDoanhThuTheoThoiGian(const std::vector<DonHang>& danhSachDon, const std::chrono::system_clock::time_point& start, const std::chrono::system_clock::time_point& end) const {
+    std::ostringstream oss;
+    double tongDoanhThu = 0.0;
+    int soDon = 0;
+
+    for (const auto& don : danhSachDon) {
+        // Chỉ tính các đơn đã thanh toán và nằm trong khoảng thời gian
+        if (don.getTrangThai() == "Da thanh toan" && don.getNgayTao() >= start && don.getNgayTao() <= end) {
+            tongDoanhThu += don.tinhTongTien();
+            soDon++;
+        }
+    }
+
+    oss << "\n--- BAO CAO DOANH THU ---\n";
+    auto startTime_t = std::chrono::system_clock::to_time_t(start);
+    auto endTime_t = std::chrono::system_clock::to_time_t(end);
+    oss << "Tu: " << std::put_time(std::localtime(&startTime_t), "%Y-%m-%d") << "\n";
+    oss << "Den: " << std::put_time(std::localtime(&endTime_t), "%Y-%m-%d") << "\n";
+    oss << "-------------------------\n";
+    oss << "Tong so don da thanh toan: " << soDon << "\n";
+    oss << "Tong doanh thu: " << std::fixed << std::setprecision(2) << tongDoanhThu << " VND\n";
+    oss << "=========================\n";
+    return oss.str();
+}

@@ -1,7 +1,7 @@
 {
 	"InstallScripts" : 
 	[
-		"E:/PBL2/DUAN/build/ninja-Debug/cmake_install.cmake"
+		"E:/PBL2/build/ninja-Debug/cmake_install.cmake"
 	],
 	"Parallel" : false
 }

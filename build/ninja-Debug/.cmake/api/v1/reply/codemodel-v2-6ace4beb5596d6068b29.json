@@ -39,7 +39,7 @@
 				{
 					"directoryIndex" : 0,
 					"id" : "PBL2::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-PBL2-Debug-3b8791adfa515b4a558e.json",
+					"jsonFile" : "target-PBL2-Debug-b671219aae7cfacf62b9.json",
 					"name" : "PBL2",
 					"projectIndex" : 0
 				}
@@ -49,12 +49,12 @@
 	"kind" : "codemodel",
 	"paths" : 
 	{
-		"build" : "E:/PBL2/DUAN/build/ninja-Debug",
-		"source" : "E:/PBL2/DUAN"
+		"build" : "E:/PBL2/build/ninja-Debug",
+		"source" : "E:/PBL2"
 	},
 	"version" : 
 	{
 		"major" : 2,
-		"minor" : 7
+		"minor" : 8
 	}
 }

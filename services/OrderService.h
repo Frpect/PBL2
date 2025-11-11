@@ -43,6 +43,7 @@ public:
     bool xoaMonKhoiDon(int idDonHang, int idMon);
     bool capNhatSoLuong(int idDonHang, int idMon, int soLuongMoi);
     bool capNhatTrangThai(int idDonHang, const std::string& trangThaiMoi);
+    bool capNhatPhuongThucThanhToan(int idDonHang, const std::string& phuongThuc);
     std::vector<std::string> getDanhSachThongTinDonHang() const;
     std::optional<int> timDonHangTheoId(const std::string& tenKhach) const;
     bool xoaDonHang(int idDonHang);
@@ -51,9 +52,6 @@ public:
 
     // Hooks for persistence (export only; limited import in OrderRepo)
     std::vector<::DonHang> exportAll() const { return getDanhSachDonHang(); }
-
-    // Giải phóng bộ nhớ cache
-    void clearCache();
 
     // Thêm getter trả về vector của models::DonHang
     std::vector<::DonHang> getDanhSachDonHang() const;

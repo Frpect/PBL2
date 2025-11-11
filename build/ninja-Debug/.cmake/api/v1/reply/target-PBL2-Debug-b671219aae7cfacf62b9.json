@@ -65,27 +65,27 @@
 			[
 				{
 					"backtrace" : 3,
-					"path" : "E:/PBL2/DUAN/src"
+					"path" : "E:/PBL2/src"
 				},
 				{
 					"backtrace" : 3,
-					"path" : "E:/PBL2/DUAN/services"
+					"path" : "E:/PBL2/services"
 				},
 				{
 					"backtrace" : 3,
-					"path" : "E:/PBL2/DUAN/storage"
+					"path" : "E:/PBL2/storage"
 				},
 				{
 					"backtrace" : 3,
-					"path" : "E:/PBL2/DUAN/UI"
+					"path" : "E:/PBL2/UI"
 				},
 				{
 					"backtrace" : 3,
-					"path" : "E:/PBL2/DUAN/models"
+					"path" : "E:/PBL2/models"
 				},
 				{
 					"backtrace" : 3,
-					"path" : "E:/PBL2/DUAN/utils"
+					"path" : "E:/PBL2/utils"
 				},
 				{
 					"backtrace" : 4,
@@ -146,10 +146,6 @@
 		[
 			{
 				"fragment" : "-g",
-				"role" : "flags"
-			},
-			{
-				"fragment" : "",
 				"role" : "flags"
 			},
 			{

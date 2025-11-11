@@ -22,6 +22,9 @@ public:
 
     // Xuất báo cáo tổng hợp (chuỗi mô tả)
     std::string taoBaoCaoTongHop(const std::vector<DonHang>& danhSachDon) const;
+
+    // Tạo báo cáo doanh thu theo khoảng thời gian
+    std::string taoBaoCaoDoanhThuTheoThoiGian(const std::vector<DonHang>& danhSachDon, const std::chrono::system_clock::time_point& start, const std::chrono::system_clock::time_point& end) const;
 };
 
 #endif // REPORTSERVICE_H

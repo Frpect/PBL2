@@ -1,28 +1,29 @@
 #ifndef AUTHSERVICE_H
 #define AUTHSERVICE_H
-#include <memory>
+
 #include <string>
-#include <unordered_map>
-#include <iostream>
-#include<vector>
+#include <vector>
+#include <memory>
 #include "User.h"
 
 class AuthService {
 private:
-    std::unordered_map<std::string, std::unique_ptr<User>> userDatabase;
-    User* currentUser;
+    std::vector<std::unique_ptr<User>> users_;
+    User* currentUser_ = nullptr;
 
 public:
-    AuthService();
+    AuthService() = default;
+
     bool registerUser(std::unique_ptr<User> user);
     User* login(const std::string& username, const std::string& password);
     void logout();
-    bool isLoggedIn() const;
-    std::string getCurrentUser() const;
-    Role getCurrentUserRole() const;
-    bool userExists(const std::string& username) const;
-    // Export all users for persistence
+    User* getCurrentUser() const;
     std::vector<const User*> getAllUsers() const;
+    bool deleteUser(const std::string& username);
+
+    // For persistence
+    void clearUsers();
+    const std::vector<std::unique_ptr<User>>& getUsersForSave() const;
 };
 
-#endif
+#endif // AUTHSERVICE_H
